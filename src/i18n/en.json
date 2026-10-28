@@ -154,5 +154,53 @@
       "confirmText": "This can't be undone. Save a backup first if you might want your entries back.",
       "confirm": "Delete everything"
     }
+  },
+  "insights": {
+    "tabs": {
+      "cycle": "Cycle",
+      "mood": "Mood",
+      "symptoms": "Symptoms"
+    },
+    "ringLabel": "Cycle day {{day}} of {{length}}, {{phase}} phase",
+    "day": "Day {{day}}",
+    "phaseOf": "{{phase}} phase",
+    "cycleLength": "Cycle length",
+    "periodLength": "Period length",
+    "averageOf": "Average of {{count}} cycle",
+    "averageOf_other": "Average of {{count}} cycles",
+    "fromLogged": "From your logged periods",
+    "fromSettings": "From your settings",
+    "nextPeriod": "Next period",
+    "inDays": "in {{count}} day",
+    "inDays_other": "in {{count}} days",
+    "today": "may start today",
+    "late": "{{count}} day late",
+    "late_other": "{{count}} days late",
+    "history": "Your cycles",
+    "ongoing": "ongoing",
+    "periodDays": "period {{count}} day",
+    "periodDays_other": "period {{count}} days",
+    "moodTitle": "Your mood in each phase",
+    "entries": "{{count}} day",
+    "entries_other": "{{count}} days",
+    "notEnough": "Not enough entries yet",
+    "symptomsTitle": "Symptoms in each phase",
+    "ofDays": "{{days}} of {{count}} logged day",
+    "ofDays_other": "{{days}} of {{count}} logged days",
+    "noSymptoms": "Symptoms you log will show up here, grouped by phase.",
+    "patterns": {
+      "title": "Your patterns",
+      "lowMood": "Your mood tends to be lower in your {{phase}} phase.",
+      "empty": "Patterns appear after a couple of cycles of logging.",
+      "note": "Based only on what you've logged. Not medical advice.",
+      "symptoms": {
+        "cramps": "You tend to have cramps in your {{phase}} phase.",
+        "headache": "You tend to get headaches in your {{phase}} phase.",
+        "bloating": "You tend to feel bloated in your {{phase}} phase.",
+        "acne": "You tend to notice acne in your {{phase}} phase.",
+        "tired": "You tend to feel more tired in your {{phase}} phase.",
+        "cravings": "You tend to have more cravings in your {{phase}} phase."
+      }
+    }
   }
 }

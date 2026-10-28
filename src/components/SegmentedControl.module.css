@@ -1,0 +1,31 @@
+.track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 2px;
+  padding: 3px;
+  background: var(--color-surface-muted);
+  border-radius: var(--radius-md);
+}
+
+.segment {
+  min-height: 40px;
+  border: 0;
+  border-radius: 13px;
+  background: none;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+}
+
+.segment[aria-selected='true'] {
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-weight: 600;
+  box-shadow: var(--shadow-card);
+}
+
+.segment:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
