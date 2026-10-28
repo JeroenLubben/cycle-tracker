@@ -4,6 +4,11 @@
   box-sizing: border-box;
 }
 
+/* Light-only for now; stops browsers (e.g. Samsung Internet, Chrome auto dark) from auto-darkening the page. */
+:root {
+  color-scheme: only light;
+}
+
 html,
 body {
   margin: 0;
