@@ -1,0 +1,26 @@
+.card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-lg);
+}
+
+.label {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+}
+
+.value {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-xs);
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-pill);
+}
