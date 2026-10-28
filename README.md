@@ -47,4 +47,5 @@ Folders marked ★ have no browser or React dependencies, so the planned React N
 ## Backlog
 
 - **Dark theme.** Samsung Internet force-darkens the app when the phone is in dark mode, even with `color-scheme: only light`. Shipping our own dark theme (a second theme in the design system) should stop that, because browsers leave sites with their own dark design alone.
-- Sleep logging, Insights, export/import screen, reminders (native app), widgets, Pro companions, Dutch.
+- Home-screen icon opens a browser tab instead of the app, and can start at onboarding. Likely a browser shortcut rather than an installed app, or a different browser's storage. Check with the user's browser; fix may be guidance only.
+- Reminders (native app), widgets, Pro companions, Dutch.

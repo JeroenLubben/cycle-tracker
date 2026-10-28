@@ -86,8 +86,26 @@ export function symptomsByPhase(logs: DayLog[], phaseOf: PhaseLookup): SymptomCo
   return { logged, bySymptom }
 }
 
+export interface SleepSummary {
+  /** Average minutes asleep on logged nights. */
+  average: number
+  count: number
+}
+
+export function sleepByPhase(logs: DayLog[], phaseOf: PhaseLookup): Partial<Record<Phase, SleepSummary>> {
+  const out: Partial<Record<Phase, SleepSummary>> = {}
+  for (const phase of PHASES) {
+    const minutes = logs.filter((l) => l.sleepMinutes && phaseOf(l.date) === phase).map((l) => l.sleepMinutes!)
+    if (minutes.length) out[phase] = { average: minutes.reduce((a, b) => a + b, 0) / minutes.length, count: minutes.length }
+  }
+  return out
+}
+
+/** Sleep this many minutes less than in other phases before it counts as a pattern. */
+const SHORT_SLEEP_MINUTES = 45
+
 export interface Pattern {
-  kind: 'symptom' | 'lowMood'
+  kind: 'symptom' | 'lowMood' | 'shortSleep'
   /** The symptom; empty for mood patterns. */
   key: string
   phase: Phase
@@ -99,6 +117,7 @@ export function findPatterns(
   moods: Partial<Record<Phase, MoodSummary>>,
   completeCycles: number,
   max = 3,
+  sleep: Partial<Record<Phase, SleepSummary>> = {},
 ): Pattern[] {
   if (completeCycles < MIN_COMPLETE_CYCLES) return []
   const found: { pattern: Pattern; strength: number }[] = []
@@ -123,6 +142,16 @@ export function findPatterns(
     if (!here || here.count < MIN_DAYS || !others.length) continue
     const otherAvg = others.reduce((n, m) => n + m.average * m.count, 0) / others.reduce((n, m) => n + m.count, 0)
     if (otherAvg - here.average >= 1) found.push({ pattern: { kind: 'lowMood', key: '', phase }, strength: (otherAvg - here.average) / 4 })
+  }
+
+  // Phases where she sleeps clearly less than in the rest of her cycle.
+  for (const phase of PHASES) {
+    const here = sleep[phase]
+    const others = PHASES.filter((p) => p !== phase).map((p) => sleep[p]).filter((m): m is SleepSummary => !!m && m.count >= MIN_DAYS)
+    if (!here || here.count < MIN_DAYS || !others.length) continue
+    const otherAvg = others.reduce((n, m) => n + m.average * m.count, 0) / others.reduce((n, m) => n + m.count, 0)
+    const shortfall = otherAvg - here.average
+    if (shortfall >= SHORT_SLEEP_MINUTES) found.push({ pattern: { kind: 'shortSleep', key: '', phase }, strength: shortfall / 120 })
   }
 
   return found

@@ -10,13 +10,19 @@ import { SegmentedControl } from '../components/SegmentedControl'
 import { storage } from '../data/web'
 import { SYMPTOMS, type DayLog, type Mood } from '../data/types'
 import { phaseRanges, toISO } from '../domain/cycle'
-import { MIN_DAYS, PHASES, cycleHistory, findPatterns, moodByPhase, phaseLookup, symptomsByPhase, type Pattern } from '../domain/insights'
+import { MIN_DAYS, PHASES, cycleHistory, findPatterns, moodByPhase, phaseLookup, sleepByPhase, symptomsByPhase, type Pattern } from '../domain/insights'
 import { useAppData } from '../hooks/appDataContext'
 import { useCycleStatus } from '../hooks/useCycleStatus'
 import { phaseColors } from '../theme/tokens'
 import styles from './Insights.module.css'
 
-type View = 'cycle' | 'mood' | 'symptoms'
+type View = 'cycle' | 'mood' | 'symptoms' | 'sleep'
+
+function formatSleep(minutes: number) {
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+  return m ? `${h}h ${m}m` : `${h}h`
+}
 
 export function Insights() {
   const { t } = useTranslation()
@@ -41,15 +47,18 @@ export function Insights() {
     const phaseOf = phaseLookup(history, periodDays, settings, today)
     const moods = moodByPhase(logs, phaseOf)
     const counts = symptomsByPhase(logs, phaseOf)
+    const sleep = sleepByPhase(logs, phaseOf)
     const complete = history.filter((c) => c.length !== null)
-    return { history, moods, counts, complete, patterns: findPatterns(counts, moods, complete.length) }
+    return { history, moods, counts, sleep, complete, patterns: findPatterns(counts, moods, complete.length, 3, sleep) }
   }, [periodDays, settings, logs, today])
 
   const phaseName = (p: string) => t(`phase.${p}`)
   const patternText = (p: Pattern) =>
     p.kind === 'symptom'
       ? t(`insights.patterns.symptoms.${p.key}`, { phase: phaseName(p.phase).toLowerCase() })
-      : t('insights.patterns.lowMood', { phase: phaseName(p.phase).toLowerCase() })
+      : p.kind === 'shortSleep'
+        ? t('insights.patterns.shortSleep', { phase: phaseName(p.phase).toLowerCase() })
+        : t('insights.patterns.lowMood', { phase: phaseName(p.phase).toLowerCase() })
 
   return (
     <div className={styles.screen}>
@@ -62,6 +71,7 @@ export function Insights() {
           { value: 'cycle', label: t('insights.tabs.cycle') },
           { value: 'mood', label: t('insights.tabs.mood') },
           { value: 'symptoms', label: t('insights.tabs.symptoms') },
+          { value: 'sleep', label: t('insights.tabs.sleep') },
         ]}
       />
 
@@ -196,6 +206,32 @@ export function Insights() {
           ) : (
             <p className={styles.empty}>{t('insights.noSymptoms')}</p>
           )}
+        </Card>
+      )}
+
+      {view === 'sleep' && (
+        <Card>
+          <h2 className={styles.h2}>{t('insights.sleepTitle')}</h2>
+          <ul className={styles.list}>
+            {PHASES.map((p) => {
+              const sl = data.sleep[p]
+              return (
+                <li key={p} className={styles.row}>
+                  <span className={styles.dot} style={{ background: phaseColors[p] }} />
+                  <span className={styles.grow}>{phaseName(p)}</span>
+                  {sl && sl.count >= MIN_DAYS ? (
+                    <>
+                      <span className={styles.muted}>{t('insights.sleepNights', { count: sl.count })}</span>
+                      <span className={styles.number}>{formatSleep(Math.round(sl.average))}</span>
+                    </>
+                  ) : (
+                    <span className={styles.small}>{t('insights.notEnough')}</span>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+          <p className={styles.small}>{t('insights.sleepNote')}</p>
         </Card>
       )}
 

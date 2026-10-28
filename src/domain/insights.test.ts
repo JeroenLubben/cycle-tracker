@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { DEFAULT_SETTINGS, type DayLog, type PeriodDay, type Settings } from '../data/types'
-import { cycleHistory, findPatterns, moodByPhase, phaseLookup, symptomsByPhase } from './insights'
+import { cycleHistory, findPatterns, moodByPhase, phaseLookup, sleepByPhase, symptomsByPhase } from './insights'
 
 const period = (start: string, len: number): PeriodDay[] => {
   const d = new Date(`${start}T12:00:00`)
@@ -100,5 +100,25 @@ describe('findPatterns', () => {
     const logs = [...luteal.map((d) => log(d, [], 2)), ...follicular.map((d) => log(d, [], 4))]
     const { counts, moods, complete } = setup(logs)
     expect(findPatterns(counts, moods, complete)).toEqual([{ kind: 'lowMood', key: '', phase: 'luteal' }])
+  })
+})
+
+describe('sleep', () => {
+  it('averages sleep per phase', () => {
+    const logs = [{ date: '2026-07-02', symptoms: [], sleepMinutes: 420 }, { date: '2026-07-03', symptoms: [], sleepMinutes: 360 }, log('2026-07-20')]
+    const { history, phaseOf } = setup([])
+    expect(history.length).toBe(3)
+    expect(sleepByPhase(logs, phaseOf).menstruation).toEqual({ average: 390, count: 2 })
+    expect(sleepByPhase(logs, phaseOf).luteal).toBeUndefined()
+  })
+
+  it('finds a phase with clearly shorter sleep, but only after two complete cycles', () => {
+    const luteal = ['2026-07-20', '2026-07-22', '2026-07-25', '2026-08-18', '2026-08-20'].map((d) => ({ date: d, symptoms: [], sleepMinutes: 360 }))
+    const follicular = ['2026-07-08', '2026-07-10', '2026-08-05', '2026-08-07', '2026-08-09'].map((d) => ({ date: d, symptoms: [], sleepMinutes: 450 }))
+    const logs = [...luteal, ...follicular]
+    const { counts, moods, complete, phaseOf } = setup(logs)
+    const sleep = sleepByPhase(logs, phaseOf)
+    expect(findPatterns(counts, moods, complete, 3, sleep)).toEqual([{ kind: 'shortSleep', key: '', phase: 'luteal' }])
+    expect(findPatterns(counts, moods, 1, 3, sleep)).toEqual([])
   })
 })

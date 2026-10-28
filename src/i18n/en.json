@@ -163,7 +163,8 @@
     "tabs": {
       "cycle": "Cycle",
       "mood": "Mood",
-      "symptoms": "Symptoms"
+      "symptoms": "Symptoms",
+      "sleep": "Sleep"
     },
     "ringLabel": "Cycle day {{day}} of {{length}}, {{phase}} phase",
     "day": "Day {{day}}",
@@ -204,7 +205,12 @@
         "acne": "You tend to notice acne in your {{phase}} phase.",
         "tired": "You tend to feel more tired in your {{phase}} phase.",
         "cravings": "You tend to have more cravings in your {{phase}} phase."
-      }
-    }
+      },
+      "shortSleep": "You tend to sleep less in your {{phase}} phase."
+    },
+    "sleepTitle": "Sleep in each phase",
+    "sleepNights": "{{count}} night",
+    "sleepNote": "Average time asleep on the nights you logged.",
+    "sleepNights_other": "{{count}} nights"
   }
 }
