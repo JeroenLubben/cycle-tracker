@@ -52,3 +52,14 @@
   grid-template-columns: 1fr 1fr;
   gap: var(--space-md);
 }
+
+.cardLink {
+  color: inherit;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+}
+
+.cardLink:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}

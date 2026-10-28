@@ -1,11 +1,13 @@
 import { createContext, useContext } from 'react'
-import type { PeriodDay, Settings } from '../data/types'
+import type { Flow, ISODate, PeriodDay, Settings } from '../data/types'
 
 export interface AppData {
   loading: boolean
   settings: Settings
   periodDays: PeriodDay[]
   saveSettings(settings: Settings): Promise<void>
+  /** Pass `null` to clear the flow for that day. */
+  setFlow(date: ISODate, flow: Flow | null): Promise<void>
   reload(): Promise<void>
 }
 

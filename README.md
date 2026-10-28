@@ -43,3 +43,8 @@ Folders marked ★ have no browser or React dependencies, so the planned React N
 3. Day log (mood, symptoms, flow, sleep, notes)
 4. Cycle ring, Insights, More (export / import / delete)
 5. Native app (Expo / React Native) reusing the ★ folders; then reminders, widgets, Pro companions, app stores
+
+## Backlog
+
+- **Dark theme.** Samsung Internet force-darkens the app when the phone is in dark mode, even with `color-scheme: only light`. Shipping our own dark theme (a second theme in the design system) should stop that, because browsers leave sites with their own dark design alone.
+- Sleep logging, Insights, export/import screen, reminders (native app), widgets, Pro companions, Dutch.

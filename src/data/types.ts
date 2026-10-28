@@ -36,4 +36,5 @@ export const DEFAULT_SETTINGS: Settings = {
   onboarded: false,
 }
 
-export const SYMPTOMS = ['cramps', 'headache', 'bloating', 'acne', 'tired', 'cravings', 'tender', 'backache'] as const
+export const SYMPTOMS = ['cramps', 'headache', 'bloating', 'acne', 'tired', 'cravings'] as const
+export type Symptom = (typeof SYMPTOMS)[number]

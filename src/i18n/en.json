@@ -68,5 +68,50 @@
       "step3": "From now on, open Cycle from that icon.",
       "why": "Your entries are saved in the home-screen app, separately from Safari."
     }
+  },
+  "calendar": {
+    "previous": "Previous month",
+    "next": "Next month",
+    "today": "today",
+    "untilNext": "until your next period, around {{date}}",
+    "hint": "Tap a day to log your period, mood or symptoms.",
+    "legend": {
+      "period": "Period",
+      "predicted": "Predicted period",
+      "fertile": "Fertile window",
+      "spotting": "Spotting"
+    }
+  },
+  "day": {
+    "back": "Back",
+    "today": "Today",
+    "flow": "Flow",
+    "mood": "How are you feeling?",
+    "symptoms": "Symptoms",
+    "note": "Notes",
+    "notePlaceholder": "Write a note…",
+    "autosave": "Changes are saved automatically."
+  },
+  "flow": {
+    "none": "None",
+    "spotting": "Spotting",
+    "light": "Light",
+    "medium": "Medium",
+    "heavy": "Heavy"
+  },
+  "mood": {
+    "1": "Very low",
+    "2": "Low",
+    "3": "Okay",
+    "4": "Good",
+    "5": "Great"
+  },
+  "symptom": {
+    "cramps": "Cramps",
+    "headache": "Headache",
+    "bloating": "Bloating",
+    "acne": "Acne",
+    "tired": "Tired",
+    "cravings": "Cravings"
   }
 }

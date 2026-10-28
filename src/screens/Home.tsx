@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 import { Card, StatCard } from '../components/Card'
 import { CompanionImage } from '../components/CompanionImage'
 import { Icon } from '../components/Icon'
@@ -37,6 +38,7 @@ export function Home() {
 
       {status && (
         <>
+          <Link to="/calendar" className={styles.cardLink} aria-label={t('tabs.calendar')}>
           <Card className={styles.countdown}>
             <div>
               <div className={styles.label}>
@@ -52,6 +54,7 @@ export function Home() {
             </div>
             <Icon name="chevron" />
           </Card>
+          </Link>
           <div className={styles.stats}>
             <StatCard label={t('home.cycleDay')} value={status.cycleDay} />
             <StatCard label={t('home.phase')} value={t(`phase.${status.phase}`)} accent={phaseColors[status.phase]} />

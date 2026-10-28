@@ -4,7 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { TabBar } from './components/TabBar'
 import { AppDataProvider } from './hooks/AppData'
 import { useAppData } from './hooks/appDataContext'
+import { Calendar } from './screens/Calendar'
 import { ComingSoon } from './screens/ComingSoon'
+import { DayLogRoute } from './screens/DayLog'
 import { Home } from './screens/Home'
 import { Onboarding } from './screens/Onboarding'
 
@@ -33,8 +35,9 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/welcome" element={<Onboarding />} />
-            <Route path="/calendar" element={<ComingSoon title={t('tabs.calendar')} />} />
-            <Route path="/log" element={<ComingSoon title={t('tabs.add')} />} />
+            <Route path="/calendar" element={<Calendar />} />
+            <Route path="/log" element={<DayLogRoute />} />
+            <Route path="/day/:date" element={<DayLogRoute />} />
             <Route path="/insights" element={<ComingSoon title={t('tabs.insights')} />} />
             <Route path="/more" element={<ComingSoon title={t('tabs.more')} />} />
           </Routes>

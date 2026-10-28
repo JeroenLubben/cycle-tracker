@@ -45,8 +45,10 @@ export function averageCycleLength(starts: ISODate[], fallback: number): number 
   return lengths.length ? average(lengths.slice(-AVERAGE_WINDOW)) : fallback
 }
 
-export function averagePeriodLength(days: PeriodDay[], fallback: number): number {
-  const lengths = groupPeriods(days).map((p) => diff(p.at(-1)!, p[0]) + 1)
+/** With `today`, a period whose last logged day is today or yesterday may still be going, so it is left out. */
+export function averagePeriodLength(days: PeriodDay[], fallback: number, today?: ISODate): number {
+  const finished = groupPeriods(days).filter((p) => !today || diff(today, p.at(-1)!) > 1)
+  const lengths = finished.map((p) => diff(p.at(-1)!, p[0]) + 1)
   return lengths.length ? average(lengths.slice(-AVERAGE_WINDOW)) : fallback
 }
 
@@ -115,7 +117,7 @@ export function getCycleStatus(today: ISODate, days: PeriodDay[], settings: Sett
   if (!lastStart) return null
 
   const cycleLen = averageCycleLength(starts, settings.avgCycleLen)
-  const periodLen = averagePeriodLength(days, settings.avgPeriodLen)
+  const periodLen = averagePeriodLength(days, settings.avgPeriodLen, today)
   const cycleDay = diff(today, lastStart) + 1
   const nextPeriodStart = plus(lastStart, cycleLen)
 
@@ -138,4 +140,27 @@ export function upcomingCycles(status: CycleStatus, today: ISODate, count = 3): 
   return Array.from({ length: count }, (_, i) =>
     predictFrom(plus(first, i * status.cycleLen), status.cycleLen, status.periodLen),
   )
+}
+
+export type DayMark = 'period' | 'spotting' | 'predicted' | 'fertile'
+
+const eachDay = (from: ISODate, to: ISODate): ISODate[] =>
+  Array.from({ length: Math.max(0, diff(to, from) + 1) }, (_, i) => plus(from, i))
+
+/**
+ * One mark per date for the calendar. Logged days win over predictions;
+ * predicted periods are only shown from today onwards.
+ */
+export function calendarMarks(days: PeriodDay[], status: CycleStatus | null, today: ISODate, count = 3): Map<ISODate, DayMark> {
+  const marks = new Map<ISODate, DayMark>()
+  if (status) {
+    const cycles = [status.current, ...upcomingCycles(status, today, count)]
+    for (const c of cycles) for (const d of eachDay(c.fertileStart, c.fertileEnd)) marks.set(d, 'fertile')
+    // Includes the rest of the current period, e.g. after logging only its first day.
+    for (const c of cycles) {
+      for (const d of eachDay(c.start, c.periodEnd)) if (d >= today) marks.set(d, 'predicted')
+    }
+  }
+  for (const d of days) marks.set(d.date, d.flow === 'spotting' ? 'spotting' : 'period')
+  return marks
 }

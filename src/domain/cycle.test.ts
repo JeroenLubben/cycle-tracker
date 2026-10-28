@@ -3,6 +3,7 @@ import { DEFAULT_SETTINGS, type PeriodDay, type Settings } from '../data/types'
 import {
   averageCycleLength,
   averagePeriodLength,
+  calendarMarks,
   cycleStarts,
   getCycleStatus,
   groupPeriods,
@@ -57,6 +58,12 @@ describe('grouping', () => {
     expect(groupPeriods(days)).toHaveLength(1)
     expect(averagePeriodLength(days, 99)).toBe(5)
   })
+
+  it('leaves a period that may still be going out of the average', () => {
+    const days = [...period('2026-09-24', 5), ...period('2026-10-22', 1)]
+    expect(averagePeriodLength(days, 5, '2026-10-23')).toBe(5)
+    expect(averagePeriodLength(days, 5, '2026-10-24')).toBe(3)
+  })
 })
 
 describe('averages', () => {
@@ -108,5 +115,39 @@ describe('getCycleStatus', () => {
   it('ignores future-dated entries', () => {
     const s = getCycleStatus('2026-10-16', [...period('2026-10-01', 5), ...period('2026-11-01', 5)], settings())!
     expect(s.lastStart).toBe('2026-10-01')
+  })
+})
+
+describe('calendarMarks', () => {
+  it('marks logged, fertile and predicted days', () => {
+    const days = period('2026-09-24', 5)
+    const s = getCycleStatus('2026-10-16', days, settings())!
+    const marks = calendarMarks(days, s, '2026-10-16')
+    expect(marks.get('2026-09-24')).toBe('period')
+    expect(marks.get('2026-10-02')).toBe('fertile')
+    expect(marks.get('2026-10-22')).toBe('predicted')
+    expect(marks.get('2026-10-26')).toBe('predicted')
+    expect(marks.get('2026-10-27')).toBeUndefined()
+    expect(marks.get('2026-11-19')).toBe('predicted')
+  })
+
+  it('lets logged days override predictions and shows spotting', () => {
+    const days = [...period('2026-09-24', 5), { date: '2026-10-22', flow: 'spotting' as const }]
+    const s = getCycleStatus('2026-10-22', days, settings())!
+    expect(calendarMarks(days, s, '2026-10-22').get('2026-10-22')).toBe('spotting')
+  })
+
+  it('shows only logged days without a status', () => {
+    expect([...calendarMarks([], null, '2026-10-16')]).toEqual([])
+  })
+
+  it('predicts the rest of a period after its first day is logged', () => {
+    const days = [...period('2026-09-24', 5), ...period('2026-10-22', 1)]
+    const s = getCycleStatus('2026-10-22', days, settings())!
+    const marks = calendarMarks(days, s, '2026-10-22')
+    expect(marks.get('2026-10-22')).toBe('period')
+    expect(marks.get('2026-10-23')).toBe('predicted')
+    expect(marks.get('2026-10-26')).toBe('predicted')
+    expect(marks.get('2026-10-27')).toBeUndefined()
   })
 })

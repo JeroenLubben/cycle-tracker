@@ -32,6 +32,7 @@ export const colors = {
   focus: palette.cocoa,
   period: palette.rose,
   periodTint: palette.roseTint,
+  highlight: palette.blush,
   predicted: '#9C8170',
   fertileTint: palette.oliveTint,
   fertile: palette.olive,

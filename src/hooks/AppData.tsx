@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import { storage } from '../data/web'
-import { DEFAULT_SETTINGS, type PeriodDay, type Settings } from '../data/types'
+import { DEFAULT_SETTINGS, type Flow, type ISODate, type PeriodDay, type Settings } from '../data/types'
 import { AppDataContext } from './appDataContext'
 
 const load = () => Promise.all([storage.getSettings(), storage.listPeriodDays()])
@@ -23,6 +23,15 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     setData((d) => ({ ...d, settings }))
   }, [])
 
+  const setFlow = useCallback(async (date: ISODate, flow: Flow | null) => {
+    await storage.setPeriodDay(date, flow)
+    setData((d) => {
+      const rest = d.periodDays.filter((p) => p.date !== date)
+      const periodDays = flow ? [...rest, { date, flow }].sort((a, b) => a.date.localeCompare(b.date)) : rest
+      return { ...d, periodDays }
+    })
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     void load().then(([settings, periodDays]) => {
@@ -33,6 +42,6 @@ export function AppDataProvider({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  const value = useMemo(() => ({ ...data, saveSettings, reload }), [data, saveSettings, reload])
+  const value = useMemo(() => ({ ...data, saveSettings, setFlow, reload }), [data, saveSettings, setFlow, reload])
   return <AppDataContext.Provider value={value}>{children}</AppDataContext.Provider>
 }
