@@ -90,7 +90,11 @@
     "symptoms": "Symptoms",
     "note": "Notes",
     "notePlaceholder": "Write a note…",
-    "autosave": "Changes are saved automatically."
+    "autosave": "Changes are saved automatically.",
+    "sleep": "Sleep",
+    "sleepNotLogged": "Not logged",
+    "sleepLess": "30 minutes less",
+    "sleepMore": "30 minutes more"
   },
   "flow": {
     "none": "None",

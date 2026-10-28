@@ -162,3 +162,38 @@
   font-size: var(--font-size-sm);
   color: var(--color-text-muted);
 }
+
+.sleep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.sleepStep {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-border-control);
+  background: var(--color-surface);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.sleepStep:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.sleepStep:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.sleepValue {
+  font-family: var(--font-display);
+  font-size: var(--font-size-xl);
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}

@@ -11,6 +11,20 @@ import { toISO } from '../domain/cycle'
 import { useAppData } from '../hooks/appDataContext'
 import styles from './DayLog.module.css'
 
+const MAX_SLEEP = 16 * 60
+
+/** Steps in half hours from 0 to 16 hours. Going below 30 minutes clears the entry. */
+function adjustSleep(current: number | undefined, delta: number): number | undefined {
+  const next = Math.min(MAX_SLEEP, Math.max(0, (current ?? 0) + delta))
+  return next === 0 ? undefined : next
+}
+
+function formatSleep(minutes: number) {
+  const h = Math.floor(minutes / 60)
+  const m = minutes % 60
+  return m ? `${h}h ${m}m` : `${h}h`
+}
+
 const FLOWS: (Flow | 'none')[] = ['none', 'spotting', 'light', 'medium', 'heavy']
 const MOODS: Mood[] = [1, 2, 3, 4, 5]
 
@@ -118,6 +132,33 @@ function DayLog({ date, isToday }: { date: string; isToday: boolean }) {
               <span className={styles.caption}>{t(`symptom.${s}`)}</span>
             </button>
           ))}
+        </div>
+      </Card>
+
+      <Card>
+        <h2 className={styles.section}>{t('day.sleep')}</h2>
+        <div className={styles.sleep} role="group" aria-label={t('day.sleep')}>
+          <button
+            type="button"
+            className={styles.sleepStep}
+            aria-label={t('day.sleepLess')}
+            disabled={!log.sleepMinutes}
+            onClick={() => update({ ...log, sleepMinutes: adjustSleep(log.sleepMinutes, -30) })}
+          >
+            −
+          </button>
+          <output className={styles.sleepValue} aria-live="polite">
+            {log.sleepMinutes ? formatSleep(log.sleepMinutes) : t('day.sleepNotLogged')}
+          </output>
+          <button
+            type="button"
+            className={styles.sleepStep}
+            aria-label={t('day.sleepMore')}
+            disabled={log.sleepMinutes === MAX_SLEEP}
+            onClick={() => update({ ...log, sleepMinutes: adjustSleep(log.sleepMinutes, 30) })}
+          >
+            +
+          </button>
         </div>
       </Card>
 
