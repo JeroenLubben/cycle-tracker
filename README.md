@@ -31,14 +31,14 @@ Folders marked ★ have no browser or React dependencies, so the planned React N
 | `src/domain/` ★ | Cycle maths: phases, predictions, averages |
 | `src/data/` ★ | Data types, `Storage` interface, versioned JSON backup |
 | `src/data/web/` | IndexedDB (Dexie) implementation of `Storage` |
-| `src/theme/tokens.ts` ★ | Design tokens (draft, to be finalised in Claude Design) |
+| `src/theme/tokens.ts` ★ | Design tokens, mirroring the Cycle design system |
 | `src/i18n/` ★ | UI strings (English; add `nl.json` later) |
 | `src/companions/` ★ | Mascot sets (bear now; Pro animals later) |
 | `src/components/`, `src/screens/` | Web UI |
 
 ## Roadmap
 
-1. Design system finalised in Claude Design → update `tokens.ts` and the bear illustrations
+1. Design system: https://claude.ai/artifact/4aUNo2TxSGeQ4fmQhLY8WC (tokens mirrored in `tokens.ts`); illustrated bear set still to do
 2. Onboarding, Calendar
 3. Day log (mood, symptoms, flow, sleep, notes)
 4. Cycle ring, Insights, More (export / import / delete)

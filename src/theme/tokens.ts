@@ -1,6 +1,6 @@
 // Design tokens: the single source of truth for colours, type and spacing.
 // Plain values only (no CSS strings beyond font names), so React Native can import this file too.
-// DRAFT: colours are estimated from the mood board; finalise them in Claude Design and update here.
+// Mirrors the Cycle design system (tokens.json). Change a value there and here together.
 
 import type { Phase } from '../domain/cycle'
 
@@ -9,9 +9,12 @@ export const palette = {
   creamDeep: '#EDE2D8',
   blush: '#E8CFC4',
   sand: '#D2B4A0',
-  rose: '#C27F78',
+  rose: '#BA7670',
+  roseDeep: '#A15F59',
+  roseTint: '#E6BDB6',
   cocoa: '#7A4E35',
   olive: '#7C7E5E',
+  oliveTint: '#D5D6BF',
   white: '#FBF7F3',
 } as const
 
@@ -20,12 +23,16 @@ export const colors = {
   surface: palette.white,
   surfaceMuted: palette.creamDeep,
   text: '#5A3E2E',
-  textMuted: '#9A8072',
+  textMuted: '#785C4D',
   primary: palette.rose,
   onPrimary: palette.white,
   border: '#E6D9CE',
+  borderControl: '#9C8170',
+  focus: palette.cocoa,
   period: palette.rose,
-  predicted: palette.blush,
+  periodTint: palette.roseTint,
+  predicted: '#9C8170',
+  fertileTint: palette.oliveTint,
   fertile: palette.olive,
   today: palette.cocoa,
 } as const
