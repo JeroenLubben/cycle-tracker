@@ -25,6 +25,7 @@ export const colors = {
   text: '#5A3E2E',
   textMuted: '#785C4D',
   primary: palette.rose,
+  primaryStrong: palette.roseDeep,
   onPrimary: palette.white,
   border: '#E6D9CE',
   borderControl: '#9C8170',

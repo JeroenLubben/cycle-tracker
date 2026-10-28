@@ -1,0 +1,47 @@
+.stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-md);
+}
+
+.step {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--color-border-control);
+  background: var(--color-surface);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.step:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.step:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.value {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.number {
+  font-family: var(--font-display);
+  font-size: var(--font-size-hero);
+  line-height: 1;
+}
+
+.unit {
+  color: var(--color-text-muted);
+}

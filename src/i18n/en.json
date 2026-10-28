@@ -12,8 +12,7 @@
     "periodLate_other": "Your period is {{count}} days late",
     "cycleDay": "Cycle day",
     "phase": "Phase",
-    "noData": "Tell me about your last period to get started.",
-    "comingSoon": "Your cosy cycle tracker is being built. Add this page to your home screen to try it."
+    "noData": "Log the first day of your next period with the + button, and predictions will start from there."
   },
   "days": "{{count}} day",
   "days_other": "{{count}} days",
@@ -30,5 +29,44 @@
     "insights": "Insights",
     "more": "More"
   },
-  "disclaimer": "This app gives estimates only. It is not a method of contraception and does not replace medical advice."
+  "disclaimer": "This app gives estimates only. It is not a method of contraception and does not replace medical advice.",
+  "stepper": {
+    "fewer": "Fewer days",
+    "more": "More days",
+    "days": "day",
+    "days_other": "days"
+  },
+  "onboarding": {
+    "back": "Back",
+    "next": "Next",
+    "start": "Get started",
+    "finish": "Done",
+    "progress": "Step {{step}} of {{total}}",
+    "notSure": "Not sure? Keep the suggestion. The app learns from what you log and adjusts.",
+    "welcome": {
+      "title": "Welcome",
+      "text": "A cosy place to keep track of your cycle. Everything you enter stays on this phone."
+    },
+    "lastPeriod": {
+      "title": "When did your last period start?",
+      "text": "The first day of bleeding counts as day 1.",
+      "label": "First day of your last period",
+      "skip": "I don't remember"
+    },
+    "cycleLength": {
+      "title": "How long is your cycle, usually?",
+      "text": "Count from the first day of one period to the day before the next."
+    },
+    "periodLength": {
+      "title": "How many days does your period usually last?",
+      "text": "Count the days with bleeding."
+    },
+    "homeScreen": {
+      "title": "Add Cycle to your home screen",
+      "step1": "Tap the Share button in Safari.",
+      "step2": "Choose Add to Home Screen.",
+      "step3": "From now on, open Cycle from that icon.",
+      "why": "Your entries are saved in the home-screen app, separately from Safari."
+    }
+  }
 }

@@ -31,7 +31,7 @@ export function Home() {
 
       {!loading && !status && (
         <Card>
-          <p className={styles.note}>{t('home.comingSoon')}</p>
+          <p className={styles.note}>{t('home.noData')}</p>
         </Card>
       )}
 
