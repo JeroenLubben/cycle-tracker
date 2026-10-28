@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { Button } from '../components/Button'
 import { CompanionImage } from '../components/CompanionImage'
 import { Stepper } from '../components/Stepper'
+import { parseBackup, restoreBackup } from '../data/backup'
+import { storage } from '../data/web'
 import { toISO } from '../domain/cycle'
 import { useAppData } from '../hooks/appDataContext'
 import styles from './Onboarding.module.css'
@@ -18,7 +20,9 @@ function isStandalone() {
 export function Onboarding() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { settings, saveSettings } = useAppData()
+  const { settings, saveSettings, reload } = useAppData()
+  const fileInput = useRef<HTMLInputElement>(null)
+  const [restoreError, setRestoreError] = useState('')
 
   const steps: Step[] = ['welcome', 'lastPeriod', 'cycleLength', 'periodLength', ...(isStandalone() ? [] : ['homeScreen' as const])]
   const [index, setIndex] = useState(0)
@@ -39,6 +43,17 @@ export function Onboarding() {
       onboarded: true,
     })
     navigate('/', { replace: true })
+  }
+
+  async function restore(file: File | undefined) {
+    if (!file) return
+    try {
+      await restoreBackup(storage, parseBackup(await file.text()))
+      await reload()
+      navigate('/', { replace: true })
+    } catch (e) {
+      setRestoreError((e as Error).message)
+    }
   }
 
   const next = () => (isLast ? void finish() : setIndex(index + 1))
@@ -115,6 +130,19 @@ export function Onboarding() {
         <Button onClick={next} disabled={step === 'lastPeriod' && !lastPeriodStart}>
           {step === 'welcome' ? t('onboarding.start') : isLast ? t('onboarding.finish') : t('onboarding.next')}
         </Button>
+        {step === 'welcome' && (
+          <>
+            <Button variant="quiet" onClick={() => fileInput.current?.click()}>
+              {t('more.restore.choose')}
+            </Button>
+            <input ref={fileInput} type="file" accept="application/json,.json" hidden onChange={(e) => void restore(e.target.files?.[0])} />
+            {restoreError && (
+              <p className={styles.error} role="status">
+                {restoreError}
+              </p>
+            )}
+          </>
+        )}
         {step === 'lastPeriod' && (
           <Button variant="quiet" onClick={() => { setLastPeriodStart(''); next() }}>
             {t('onboarding.lastPeriod.skip')}

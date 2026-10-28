@@ -110,3 +110,11 @@
   gap: var(--space-sm);
   padding-top: var(--space-xl);
 }
+
+.error {
+  margin: 0;
+  text-align: center;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--color-primary-strong);
+}

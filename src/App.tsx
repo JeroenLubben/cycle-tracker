@@ -8,6 +8,7 @@ import { Calendar } from './screens/Calendar'
 import { ComingSoon } from './screens/ComingSoon'
 import { DayLogRoute } from './screens/DayLog'
 import { Home } from './screens/Home'
+import { More } from './screens/More'
 import { Onboarding } from './screens/Onboarding'
 
 /** Sends first-time users to onboarding and hides the tab bar there. */
@@ -39,7 +40,7 @@ export default function App() {
             <Route path="/log" element={<DayLogRoute />} />
             <Route path="/day/:date" element={<DayLogRoute />} />
             <Route path="/insights" element={<ComingSoon title={t('tabs.insights')} />} />
-            <Route path="/more" element={<ComingSoon title={t('tabs.more')} />} />
+            <Route path="/more" element={<More />} />
           </Routes>
         </Shell>
       </HashRouter>

@@ -59,3 +59,5 @@ export function parseBackup(json: string): Backup {
 export async function restoreBackup(storage: Storage, backup: Backup): Promise<void> {
   await storage.replaceAll(backup)
 }
+
+export const backupFileName = (date: string) => `cycle-backup-${date}.json`

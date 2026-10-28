@@ -27,6 +27,8 @@ export interface Settings {
   lastPeriodStart?: ISODate
   companionId: string
   onboarded: boolean
+  /** ISO timestamp of the last successful export. */
+  lastBackupAt?: string
 }
 
 export const DEFAULT_SETTINGS: Settings = {

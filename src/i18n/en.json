@@ -113,5 +113,46 @@
     "acne": "Acne",
     "tired": "Tired",
     "cravings": "Cravings"
+  },
+  "more": {
+    "cancel": "Cancel",
+    "backup": {
+      "title": "Backup",
+      "text": "Your entries are stored only on this phone. Save a backup now and then, for example to Files or in a chat with yourself, so you can get them back on a new phone.",
+      "last": "Last backup: {{when}}",
+      "never": "never",
+      "today": "today",
+      "yesterday": "yesterday",
+      "daysAgo": "{{count}} day ago",
+      "daysAgo_other": "{{count}} days ago",
+      "save": "Save backup",
+      "saved": "Backup saved.",
+      "saveFailed": "The backup couldn't be saved. Try again."
+    },
+    "restore": {
+      "choose": "Restore from a backup",
+      "confirmTitle": "Restore the backup from {{date}}?",
+      "confirmText": "This replaces everything on this phone with the backup: {{periods}} and {{logs}}.",
+      "periodDays": "{{count}} period day",
+      "periodDays_other": "{{count}} period days",
+      "dayLogs": "{{count}} day entry",
+      "dayLogs_other": "{{count}} day entries",
+      "confirm": "Restore backup",
+      "done": "Backup restored."
+    },
+    "cycle": {
+      "title": "Your cycle",
+      "text": "Used for predictions until enough periods are logged; after that the app uses your own averages.",
+      "cycleLength": "Usual cycle length",
+      "periodLength": "Usual period length"
+    },
+    "delete": {
+      "title": "Delete all data",
+      "text": "Removes every entry and setting from this phone.",
+      "button": "Delete all data",
+      "confirmTitle": "Delete everything?",
+      "confirmText": "This can't be undone. Save a backup first if you might want your entries back.",
+      "confirm": "Delete everything"
+    }
   }
 }
